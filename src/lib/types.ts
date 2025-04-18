@@ -21,7 +21,8 @@ export type AIModelId =
   | "anthropic/claude-3-haiku"
   | "openai/gpt-4o"
   | "openai/gpt-4-turbo"
-  | "openai/gpt-3.5-turbo";
+  | "openai/gpt-3.5-turbo"
+  | "github/gpt-4.1";
 
 export interface AIModel {
   id: AIModelId;

@@ -43,6 +43,13 @@ export const AI_MODELS: AIModels = {
     maxTokens: 4096,
     tokenLimit: 16000,
   },
+  "github/gpt-4.1": {
+    id: "github/gpt-4.1",
+    name: "GitHub GPT-4.1",
+    description: "GitHub AI-powered model based on GPT-4.1",
+    maxTokens: 4096,
+    tokenLimit: 128000,
+  },
 };
 
 export const getModel = (modelId: AIModelId): AIModel => {

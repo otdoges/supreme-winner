@@ -1,29 +1,110 @@
-# Create T3 App
+# Next.js AI Chat Application
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A robust AI chatbot application built with Next.js, featuring a modern UI, streaming responses, and powerful features.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- 🤖 Integration with AI models through GitHub Marketplace
+- 💬 Modern chat interface with message bubbles and typing indicators
+- 🔄 Real-time streaming responses
+- 📊 Complete markdown and code syntax highlighting support
+- 🎙️ Voice input capabilities
+- 📱 Fully responsive design across all devices
+- 💾 Persistent conversation history with local storage
+- 🔀 Multiple chat sessions/conversations management
+- ⚙️ Custom system prompts configuration
+- 📤 Chat export functionality (PDF, PNG, JSON, Markdown)
+- 🧩 Code execution sandbox for generated code
+- 🧠 Context management with adjustable token windows
+- 🎨 Custom themes and UI personalization
+- ⌨️ Keyboard shortcuts for power users
+- 🔍 Message search and filtering
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Technologies Used
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- Next.js 14+ with App Router
+- TypeScript for type safety
+- Server components and streaming SSR
+- Tailwind CSS for styling
+- Zustand for state management
+- Radix UI for accessible components
+- LocalStorage/IndexedDB for client-side persistence
 
-## Learn More
+## Getting Started
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Prerequisites
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- Node.js 16.8 or later
+- npm, yarn, or pnpm
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Installation
 
-## How do I deploy this?
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ai-chat-app-next.git
+   ```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+2. Navigate to the project directory:
+   ```bash
+   cd ai-chat-app-next
+   ```
+
+3. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+4. Set up environment variables:
+   - Copy `.env.example` to `.env.local`
+   - Add your API keys for the AI models you want to use
+
+5. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Environment Variables
+
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `ANTHROPIC_API_KEY`: Your Anthropic API key (for Claude models)
+
+## Usage
+
+### Creating a New Conversation
+
+Click the "+" button in the top-right corner to start a new conversation.
+
+### Changing AI Models
+
+1. Click the "More Options" button (three dots) in the conversation header
+2. Select "Change Model"
+3. Choose from the available AI models
+
+### Customizing System Prompts
+
+1. Click the "More Options" button in the conversation header
+2. Select "Edit System Prompt"
+3. Customize the prompt that defines the AI's behavior
+
+### Exporting Conversations
+
+1. Click the "More Options" button in the conversation header
+2. Select "Export Conversation"
+3. Choose from PDF, PNG, JSON, or Markdown formats
+
+### Voice Input
+
+Click the microphone button in the chat input to use voice-to-text (requires browser permission).
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Vercel AI SDK](https://sdk.vercel.ai/docs)
