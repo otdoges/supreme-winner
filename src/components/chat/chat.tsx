@@ -67,6 +67,7 @@ export function Chat() {
     isLoading,
     handleSubmit,
     stop,
+    setMessages,
   } = useChat({
     api: "/api/chat",
     id: activeConversationId || undefined,
@@ -81,7 +82,28 @@ export function Chat() {
         });
       }
     },
+    onError: (error) => {
+      console.error("Error in AI chat:", error);
+      if (conversation) {
+        addMessage(conversation.id, {
+          content: "Sorry, there was an error processing your request. Please try again.",
+          role: "assistant",
+        });
+      }
+    }
   });
+  
+  // Sync messages with AI SDK when conversation changes
+  useEffect(() => {
+    if (conversation) {
+      const formattedMessages = conversation.messages.map(msg => ({
+        id: msg.id,
+        content: msg.content,
+        role: msg.role,
+      }));
+      setMessages(formattedMessages);
+    }
+  }, [conversation?.id, setMessages]);
   
   // Scroll to bottom when new messages are added
   useEffect(() => {
