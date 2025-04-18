@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
+import { Virtuoso } from "react-virtuoso";
+import type { VirtuosoHandle } from "react-virtuoso";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -122,14 +123,25 @@ export function Chat() {
       role: "user",
     });
     
-    // Submit to the AI
-    const formData = new FormData();
-    formData.append("message", content);
-    handleSubmit(new FormEvent("submit") as any, {
-      data: {
-        message: content,
-      },
-    });
+    // Create a simplified message array for the API call
+    const apiMessages = conversation.messages.map(msg => ({
+      content: msg.content,
+      role: msg.role
+    }));
+    
+    // Add the new user message
+    apiMessages.push({ content, role: "user" });
+    
+    // Submit to the AI using the API call
+    handleSubmit(
+      new SubmitEvent("submit") as any, 
+      { 
+        data: { 
+          messages: apiMessages,
+          modelId: conversation.model.id
+        } 
+      }
+    );
   };
   
   // Create a new conversation
