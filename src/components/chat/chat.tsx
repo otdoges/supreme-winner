@@ -63,13 +63,10 @@ export function Chat() {
   
   // Set up chat with AI SDK
   const {
-    messages,
-    input,
-    handleInputChange,
-    handleSubmit,
+    messages: aiMessages,
     isLoading,
+    handleSubmit,
     stop,
-    data,
   } = useChat({
     api: "/api/chat",
     id: activeConversationId || undefined,
@@ -88,13 +85,13 @@ export function Chat() {
   
   // Scroll to bottom when new messages are added
   useEffect(() => {
-    if (messages.length > 0 && virtuosoRef.current) {
+    if (aiMessages.length > 0 && virtuosoRef.current) {
       virtuosoRef.current.scrollToIndex({
-        index: messages.length - 1,
+        index: aiMessages.length - 1,
         behavior: "smooth",
       });
     }
-  }, [messages.length]);
+  }, [aiMessages.length]);
   
   // Handle scroll events to show/hide scroll to bottom button
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -108,7 +105,7 @@ export function Chat() {
   // Handler for the scroll to bottom button
   const scrollToBottom = () => {
     virtuosoRef.current?.scrollToIndex({
-      index: messages.length - 1,
+      index: aiMessages.length - 1,
       behavior: "smooth",
     });
   };

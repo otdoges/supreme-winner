@@ -5,9 +5,9 @@ import type { AIModelId } from "../../../lib/types";
 export const runtime = "edge";
 
 export async function POST(req: NextRequest) {
-  const { messages, modelId } = await req.json();
-  
   try {
+    const { messages, modelId } = await req.json();
+    
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: "Messages are required" }), {
         status: 400,
@@ -22,10 +22,22 @@ export async function POST(req: NextRequest) {
       });
     }
     
-    // Type casting here since we validate the modelId in the service
-    const stream = await streamChat(messages, modelId as AIModelId);
+    // Validate message format
+    const validMessages = messages.map((msg: any) => ({
+      role: msg.role,
+      content: msg.content
+    }));
     
-    return new Response(stream);
+    // Type casting here since we validate the modelId in the service
+    const stream = await streamChat(validMessages, modelId as AIModelId);
+    
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    });
   } catch (error) {
     console.error("Error in chat API:", error);
     return new Response(
