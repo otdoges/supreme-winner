@@ -4,7 +4,9 @@ import React from "react";
 import { cn } from "../../lib/utils";
 import { UserIcon, BotIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import type { SyntaxHighlighterProps } from "react-syntax-highlighter";
 import { vs, vscDarkPlus, dracula, atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -87,22 +89,25 @@ export function Message({ message, isLastMessage }: MessageProps) {
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             components={{
-              code({ node, inline, className, children, ...props }) {
+              code({ className, children, ...rest }) {
                 const match = /language-(\w+)/.exec(className || "");
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={selectedTheme}
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                );
+                if (!match) {
+                  return (
+                    <code className={className} {...rest}>
+                      {children}
+                    </code>
+                  );
+                }
+                
+                // Only use necessary props for SyntaxHighlighter
+                const syntaxProps: SyntaxHighlighterProps = {
+                  style: selectedTheme,
+                  language: match[1],
+                  PreTag: "div",
+                  children: String(children).replace(/\n$/, "")
+                };
+                
+                return <SyntaxHighlighter {...syntaxProps} />;
               }
             }}
           >
