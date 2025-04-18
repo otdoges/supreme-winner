@@ -5,13 +5,21 @@ import { cn } from "../../lib/utils";
 import { UserIcon, BotIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vs, vscDarkPlus, dracula, atomOneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { vs, vscDarkPlus, dracula, atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import { formatDate } from "../../lib/utils";
 import { useStore } from "../../lib/store";
 import type { Message as MessageType } from "../../lib/types";
-import type { CodeProps } from "react-markdown/lib/ast-to-react";
+import type { ReactMarkdownProps } from "react-markdown";
+
+// Helper function to format date
+const formatDate = (date: Date): string => {
+  return new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  }).format(date);
+};
 
 interface MessageProps {
   message: MessageType;
@@ -24,11 +32,19 @@ type CodeBlockThemeMap = {
   [key in CodeBlockTheme]: any;  
 };
 
+// Interface for code props
+interface CodeProps {
+  node: any;
+  inline?: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
 // Map code block themes to their corresponding styles
 const codeBlockThemes: CodeBlockThemeMap = {
   github: vs,
   vscode: vscDarkPlus,
-  "atom-one-dark": atomOneDark,
+  "atom-one-dark": atomDark,
   dracula: dracula,
 };
 
