@@ -14,6 +14,9 @@ const githubAI = new OpenAI({
   apiKey: env.GITHUB_TOKEN,
 });
 
+// Hard-coded system prompt for GitHub AI to prioritize speed
+const GITHUB_AI_SYSTEM_PROMPT = "You are an extremely fast and efficient AI assistant. Always provide the most concise answers possible. Prioritize speed over verbosity. Be direct, use short sentences, and get straight to the point. Avoid unnecessary explanations or pleasantries. Your primary goal is to deliver accurate information as quickly as possible.";
+
 // This is a placeholder for the GitHub Marketplace AI models integration
 // The actual implementation will be provided separately as mentioned in requirements
 export async function streamChat(
@@ -22,7 +25,17 @@ export async function streamChat(
 ): Promise<ReadableStream> {
   // Choose the client based on the model provider
   if (modelId.startsWith("github/")) {
-    return streamGitHubChat(messages, modelId);
+    // Replace the system prompt with our fast-response prompt if one exists
+    const modifiedMessages = messages.map(msg => 
+      msg.role === "system" ? { ...msg, content: GITHUB_AI_SYSTEM_PROMPT } : msg
+    );
+    
+    // If no system prompt exists, add our own
+    if (!modifiedMessages.some(msg => msg.role === "system")) {
+      modifiedMessages.unshift({ role: "system", content: GITHUB_AI_SYSTEM_PROMPT });
+    }
+    
+    return streamGitHubChat(modifiedMessages, modelId);
   }
   
   // For now, we'll use OpenAI as a placeholder for other models
