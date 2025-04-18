@@ -11,14 +11,21 @@ import rehypeRaw from "rehype-raw";
 import { formatDate } from "../../lib/utils";
 import { useStore } from "../../lib/store";
 import type { Message as MessageType } from "../../lib/types";
+import type { CodeProps } from "react-markdown/lib/ast-to-react";
 
 interface MessageProps {
   message: MessageType;
   isLastMessage: boolean;
 }
 
+// Create a type declaration for codeBlockThemes
+type CodeBlockTheme = "github" | "vscode" | "atom-one-dark" | "dracula";
+type CodeBlockThemeMap = {
+  [key in CodeBlockTheme]: any;  
+};
+
 // Map code block themes to their corresponding styles
-const codeBlockThemes = {
+const codeBlockThemes: CodeBlockThemeMap = {
   github: vs,
   vscode: vscDarkPlus,
   "atom-one-dark": atomOneDark,
@@ -29,7 +36,7 @@ export function Message({ message, isLastMessage }: MessageProps) {
   const { settings } = useStore();
   
   // Determine the selected code theme
-  const selectedTheme = codeBlockThemes[settings.codeBlockTheme] || vs;
+  const selectedTheme = codeBlockThemes[settings.codeBlockTheme as CodeBlockTheme] || vs;
   
   return (
     <div 
@@ -73,7 +80,7 @@ export function Message({ message, isLastMessage }: MessageProps) {
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             components={{
-              code({ node, inline, className, children, ...props }) {
+              code({ node, inline, className, children, ...props }: CodeProps) {
                 const match = /language-(\w+)/.exec(className || "");
                 return !inline && match ? (
                   <SyntaxHighlighter
