@@ -10,7 +10,6 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { useStore } from "../../lib/store";
 import type { Message as MessageType } from "../../lib/types";
-import type { ReactMarkdownProps } from "react-markdown";
 
 // Helper function to format date
 const formatDate = (date: Date): string => {
@@ -31,14 +30,6 @@ type CodeBlockTheme = "github" | "vscode" | "atom-one-dark" | "dracula";
 type CodeBlockThemeMap = {
   [key in CodeBlockTheme]: any;  
 };
-
-// Interface for code props
-interface CodeProps {
-  node: any;
-  inline?: boolean;
-  className?: string;
-  children: React.ReactNode;
-}
 
 // Map code block themes to their corresponding styles
 const codeBlockThemes: CodeBlockThemeMap = {
@@ -96,7 +87,7 @@ export function Message({ message, isLastMessage }: MessageProps) {
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             components={{
-              code({ node, inline, className, children, ...props }: CodeProps) {
+              code({ node, inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || "");
                 return !inline && match ? (
                   <SyntaxHighlighter
